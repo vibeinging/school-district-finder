@@ -50,6 +50,9 @@
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+/* 关键：作者样式若给元素设置 display 会覆盖 [hidden] 的浏览器默认隐藏，
+   必须用 !important 保证 hidden 属性在任何断点下都生效 */
+[hidden] { display: none !important; }
 html { font-size: 16px; }
 body {
   margin: 0;
@@ -414,6 +417,7 @@ main {
 /* ---------- 选中行 / 桌面占位提示 / 顶部导航（默认隐藏） ---------- */
 .row-btn.selected { border: 1.5px solid var(--primary); }
 .pane-hint, .topnav { display: none; }
+.recent .chip { max-width: 280px; }
 
 /* ============================================================
    桌面端（≥1024px）：顶栏导航 + 双栏布局 + 政策双列
@@ -457,6 +461,8 @@ main {
   #view-home .col-list { grid-area: list; }
   #view-home .search-box { position: static; background: none; padding: 14px 0 10px; }
   #view-home .detail-host { grid-area: side; position: sticky; top: 86px; margin-top: 14px; }
+  #view-home .pane-hint { grid-area: side; margin-top: 14px; }
+  #view-home.has-detail .pane-hint { display: none; }
 
   /* 学校页：同款双栏 */
   #view-school {
@@ -466,12 +472,15 @@ main {
   }
   #view-school .col-list { grid-area: list; }
   #view-school .search-box { position: static; background: none; padding: 0 0 10px; }
-  #view-school .pane-hint {
-    grid-area: side; display: block;
+  #view-school .pane-hint { grid-area: side; }
+  .pane-hint {
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
     border: 1.5px dashed var(--line); border-radius: var(--radius);
-    color: var(--ink-3); font-size: 14px; text-align: center;
-    padding: 64px 20px;
+    color: var(--ink-3); font-size: 13.5px; text-align: center; line-height: 1.8;
+    padding: 72px 24px;
   }
+  .pane-hint svg { width: 34px; height: 34px; opacity: 0.6; }
+  #view-home.has-detail .pane-hint,
   #view-school.has-detail .pane-hint { display: none; }
   #view-school .detail-host { grid-area: side; position: sticky; top: 86px; }
 
