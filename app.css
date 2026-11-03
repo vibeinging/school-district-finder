@@ -410,3 +410,84 @@ main {
   font-size: 11.5px; color: var(--ink-3); line-height: 1.7;
   animation: rise 0.3s 0.25s cubic-bezier(0.2, 0.7, 0.3, 1) backwards;
 }
+
+/* ---------- 选中行 / 桌面占位提示 / 顶部导航（默认隐藏） ---------- */
+.row-btn.selected { border: 1.5px solid var(--primary); }
+.pane-hint, .topnav { display: none; }
+
+/* ============================================================
+   桌面端（≥1024px）：顶栏导航 + 双栏布局 + 政策双列
+   ============================================================ */
+@media (min-width: 1024px) {
+  body { background:
+    radial-gradient(600px 320px at 90% -80px, var(--bg-glow), transparent 70%),
+    var(--bg);
+  }
+
+  /* 顶栏：紧凑吸顶横条，导航入顶栏 */
+  .topbar {
+    position: sticky; top: 0; z-index: 30;
+    padding: 12px 28px; border-radius: 0;
+  }
+  .topbar::before { width: 380px; height: 380px; right: -140px; top: -220px; }
+  .topbar-inner { max-width: 1180px; display: flex; align-items: center; gap: 26px; }
+  .brand { font-size: 20px; }
+  .sub { margin-top: 0; font-size: 13px; }
+  .topnav { display: flex; gap: 6px; margin-left: auto; }
+  .tnav {
+    border: 0; background: none; color: rgba(255, 255, 255, 0.82);
+    font-size: 14px; padding: 8px 16px; border-radius: 999px; cursor: pointer;
+    font-family: inherit; transition: background 0.15s, color 0.15s;
+  }
+  .tnav:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
+  .tnav.active { background: rgba(255, 255, 255, 0.2); color: #fff; font-weight: 700; }
+
+  main { max-width: 1180px; padding: 22px 28px 60px; }
+  .tabbar { display: none; }
+  .view { animation: none; }
+  .topbar-inner { animation: none; }
+
+  /* 小区页：左列表右详情 */
+  #view-home {
+    display: grid; column-gap: 30px; align-items: start;
+    grid-template-columns: minmax(360px, 430px) 1fr;
+    grid-template-areas: "default side" "list side";
+  }
+  #home-default { grid-area: default; max-width: 860px; }
+  #view-home .col-list { grid-area: list; }
+  #view-home .search-box { position: static; background: none; padding: 14px 0 10px; }
+  #view-home .detail-host { grid-area: side; position: sticky; top: 86px; margin-top: 14px; }
+
+  /* 学校页：同款双栏 */
+  #view-school {
+    display: grid; column-gap: 30px; align-items: start;
+    grid-template-columns: minmax(360px, 430px) 1fr;
+    grid-template-areas: "list side";
+  }
+  #view-school .col-list { grid-area: list; }
+  #view-school .search-box { position: static; background: none; padding: 0 0 10px; }
+  #view-school .pane-hint {
+    grid-area: side; display: block;
+    border: 1.5px dashed var(--line); border-radius: var(--radius);
+    color: var(--ink-3); font-size: 14px; text-align: center;
+    padding: 64px 20px;
+  }
+  #view-school.has-detail .pane-hint { display: none; }
+  #view-school .detail-host { grid-area: side; position: sticky; top: 86px; }
+
+  /* 详情内部两档并排 */
+  .detail .back-row { display: none; } /* 桌面双栏无需返回按钮 */
+  .detail .sec-a, .detail .sec-b { margin-top: 14px; }
+
+  /* 政策页：双列卡片 */
+  #view-policy { display: grid; grid-template-columns: 1fr 1fr; column-gap: 22px; align-items: start; }
+  #view-policy .card { margin-top: 0; margin-bottom: 22px; }
+  #view-policy .card.warn { grid-column: 1 / -1; margin-bottom: 4px; }
+  #view-policy .card.dim { grid-column: 1 / -1; margin: 0; }
+  #view-policy .card { animation: none; }
+
+  .global-disclaimer { margin-top: 6px; animation: none; }
+  .result-list li { animation: none; }
+  .chips .chip { animation: none; }
+  .stats-card, .tips, .hot-areas, .recent { animation: none; }
+}

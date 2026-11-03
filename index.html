@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>朝阳小学指南 · 你住的地方，能上哪个小学</title>
 <meta name="description" content="北京朝阳区住宅区对应小学入学服务片查询指南：7651 个小区对口学校、多校派位范围、入学政策。数据来源：朝阳区招生考试中心（2026年）。">
-<link rel="stylesheet" href="app.css?v=7">
+<link rel="stylesheet" href="app.css?v=9">
 </head>
 <body>
 <header class="topbar">
@@ -15,6 +15,11 @@
       <span class="year-pill" id="year-pill">2026 年数据</span>
     </div>
     <div class="sub" id="meta-sub">你住的地方，能上哪个小学</div>
+    <nav class="topnav">
+      <button class="tnav" data-tab="home">小区查询</button>
+      <button class="tnav" data-tab="school">学校查询</button>
+      <button class="tnav" data-tab="policy">入学政策</button>
+    </nav>
   </div>
 </header>
 
@@ -46,33 +51,38 @@
       </div>
     </div>
 
-    <div class="search-box">
-      <div class="search-pill">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-        <input id="q-community" type="search" autocomplete="off"
-               placeholder="搜小区名 / 拼音，如 望京西园" maxlength="40">
+    <div class="col-list">
+      <div class="search-box">
+        <div class="search-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input id="q-community" type="search" autocomplete="off"
+                 placeholder="搜小区名 / 拼音，如 望京西园" maxlength="40">
+        </div>
+        <div class="hint" id="home-hint">支持小区名 / 拼音 / 首字母（如 wangjing、wjxy）</div>
       </div>
-      <div class="hint" id="home-hint">支持小区名 / 拼音 / 首字母（如 wangjing、wjxy）</div>
-    </div>
 
-    <div id="recent-box" class="recent" hidden>
-      <div class="recent-title">搜索历史 <button class="link-btn" id="recent-clear">清空</button></div>
-      <div class="chips" id="recent-list"></div>
+      <div id="recent-box" class="recent" hidden>
+        <div class="recent-title">搜索历史 <button class="link-btn" id="recent-clear">清空</button></div>
+        <div class="chips" id="recent-list"></div>
+      </div>
+      <ul id="community-results" class="result-list"></ul>
     </div>
-    <ul id="community-results" class="result-list"></ul>
   </section>
 
   <!-- ========== 查学校 ========== -->
   <section id="view-school" class="view" hidden>
-    <div class="search-box">
-      <div class="search-pill">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-        <input id="q-school" type="search" autocomplete="off"
-               placeholder="学校名，如：花家地、白家庄" maxlength="40">
+    <div class="col-list">
+      <div class="search-box">
+        <div class="search-pill">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+          <input id="q-school" type="search" autocomplete="off"
+                 placeholder="学校名，如：花家地、白家庄" maxlength="40">
+        </div>
+        <div class="hint">按对口小区数排序 · 共 <span id="school-total">–</span> 所（含派位池学校）</div>
       </div>
-      <div class="hint">按对口小区数排序 · 共 <span id="school-total">–</span> 所（含派位池学校）</div>
+      <ul id="school-results" class="result-list"></ul>
     </div>
-    <ul id="school-results" class="result-list"></ul>
+    <div class="pane-hint">从左侧选择学校，查看其对口小区</div>
   </section>
 
   <!-- ========== 政策 ========== -->
@@ -140,6 +150,6 @@
 </nav>
 
 <script src="data.js?v=4"></script>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

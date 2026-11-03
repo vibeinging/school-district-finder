@@ -7,6 +7,7 @@
 
   var D = window.APP_DATA;
   var $ = function (id) { return document.getElementById(id); };
+  var MQ_DESKTOP = window.matchMedia("(min-width: 1024px)");
 
   /* ---------- 工具 ---------- */
 
@@ -133,17 +134,26 @@
       "一个地址小学六年内原则上只提供一个学位（多孩除外）。</p>",
       "</div>"
     ].join("");
-    $("community-results").innerHTML = "";
-    $("home-default").hidden = true;
-    $("recent-box").hidden = true;
-    $("q-community").value = c.n;
     var host = document.createElement("div");
     host.className = "detail-host";
     host.innerHTML = html;
     var old = document.querySelector(".detail-host");
     if (old) old.remove();
     $("view-home").appendChild(host);
-    window.scrollTo(0, 0);
+
+    if (MQ_DESKTOP.matches) {
+      // 桌面双栏：列表保留，仅高亮选中行，不动输入框与滚动
+      var rows = document.querySelectorAll("#community-results .row-btn");
+      for (var r = 0; r < rows.length; r++) {
+        rows[r].classList.toggle("selected", rows[r].dataset.idx === String(idx));
+      }
+    } else {
+      $("community-results").innerHTML = "";
+      $("home-default").hidden = true;
+      $("recent-box").hidden = true;
+      $("q-community").value = c.n;
+      window.scrollTo(0, 0);
+    }
   }
 
   /* ---------- 学校列表 / 详情 ---------- */
@@ -200,8 +210,18 @@
     host.className = "detail-host";
     host.innerHTML = html;
     $("view-school").appendChild(host);
-    $("q-school").value = name;
-    $("school-results").innerHTML = "";
+    $("view-school").classList.add("has-detail");
+
+    if (MQ_DESKTOP.matches) {
+      var rows = document.querySelectorAll("#school-results .row-btn");
+      for (var r = 0; r < rows.length; r++) {
+        rows[r].classList.toggle("selected", rows[r].dataset.school === name);
+      }
+    } else {
+      $("q-school").value = name;
+      $("school-results").innerHTML = "";
+      window.scrollTo(0, 0);
+    }
 
     function fillChunk(role, arr) {
       var el = host.querySelector('[data-role="' + role + '"]');
@@ -216,8 +236,6 @@
     fillChunk("c-list", cList);
     fillChunk("a-list", aList);
     host.__fill = fillChunk; host.__c = cList; host.__a = aList;
-
-    window.scrollTo(0, 0);
   }
 
   /* ---------- 路由与 Tab ---------- */
@@ -226,15 +244,18 @@
     ["home", "school", "policy"].forEach(function (t) {
       $("view-" + t).hidden = t !== tab;
     });
-    document.querySelectorAll(".tab").forEach(function (b) {
+    document.querySelectorAll(".tab, .tnav").forEach(function (b) {
       b.classList.toggle("active", b.dataset.tab === tab);
     });
-    var input = tab === "home" ? $("q-community") : tab === "school" ? $("q-school") : null;
-    if (input && !input.value) input.focus();
+    if (!MQ_DESKTOP.matches) {
+      var input = tab === "home" ? $("q-community") : tab === "school" ? $("q-school") : null;
+      if (input && !input.value) input.focus();
+    }
   }
 
   function clearDetails() {
     document.querySelectorAll(".detail-host").forEach(function (el) { el.remove(); });
+    $("view-school").classList.remove("has-detail");
   }
 
   function route() {
@@ -285,7 +306,7 @@
     var t = e.target.closest("button, a");
     if (!t) return;
 
-    if (t.classList.contains("tab")) { location.hash = "#/" + t.dataset.tab; return; }
+    if (t.dataset.tab) { location.hash = "#/" + t.dataset.tab; return; }
 
     if (t.dataset.idx !== undefined && t.dataset.idx !== "") {
       var ci = Number(t.dataset.idx);
