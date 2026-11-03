@@ -140,6 +140,7 @@
     var old = document.querySelector(".detail-host");
     if (old) old.remove();
     $("view-home").appendChild(host);
+    $("view-home").classList.add("has-detail");
 
     if (MQ_DESKTOP.matches) {
       // 桌面双栏：列表保留，仅高亮选中行，不动输入框与滚动
@@ -255,6 +256,7 @@
 
   function clearDetails() {
     document.querySelectorAll(".detail-host").forEach(function (el) { el.remove(); });
+    $("view-home").classList.remove("has-detail");
     $("view-school").classList.remove("has-detail");
   }
 
