@@ -75,10 +75,24 @@
     return starts.concat(contains).slice(0, 40);
   }
 
+  function communityRow(i) {
+    var c = D.communities[i];
+    var cnt = c.s.length;
+    return '<li><button class="row-btn" data-idx="' + i + '">' +
+      '<span class="row-main"><span class="name">' + esc(c.n) + "</span>" +
+      (c.s.length ? '<span class="row-sub">' + esc(c.s.join(" · ")) + "</span>" : "") +
+      "</span>" +
+      '<span class="badge">' + (cnt > 1 ? cnt + " 所学校" : cnt === 1 ? "单校" : "见详情") + "</span>" +
+      '<span class="chev">›</span>' +
+      "</button></li>";
+  }
+
   function renderCommunityResults(qRaw) {
     var box = $("community-results");
     var def = $("home-default");
+    var label = $("list-label");
     var q = qRaw.trim();
+    label.hidden = true;
     if (!q) { box.innerHTML = ""; def.hidden = false; renderRecent(); return; }
     def.hidden = true;
     $("recent-box").hidden = true;
@@ -88,17 +102,21 @@
       box.innerHTML = '<li><div class="empty">没有匹配的小区。<br>试试更短的关键词（如「望京」「大屯」），或核对小区全称。</div></li>';
       return;
     }
-    box.innerHTML = idxs.map(function (i) {
-      var c = D.communities[i];
-      var cnt = c.s.length;
-      return '<li><button class="row-btn" data-idx="' + i + '">' +
-        '<span class="row-main"><span class="name">' + esc(c.n) + "</span>" +
-        (c.s.length ? '<span class="row-sub">' + esc(c.s.join(" · ")) + "</span>" : "") +
-        "</span>" +
-        '<span class="badge">' + (cnt > 1 ? cnt + " 所学校" : cnt === 1 ? "单校" : "见详情") + "</span>" +
-        '<span class="chev">›</span>' +
-        "</button></li>";
-    }).join("");
+    box.innerHTML = idxs.map(communityRow).join("");
+  }
+
+  /* 深链接直接打开详情时，左栏补"对口同校的其他小区"，避免大片空白 */
+  function renderSiblings(idx) {
+    var c = D.communities[idx];
+    var sch = c.s[0];
+    var label = $("list-label");
+    var box = $("community-results");
+    var group = sch && D.by_school[sch];
+    if (!group || group.c.length < 2) { label.hidden = true; box.innerHTML = ""; return; }
+    var others = group.c.filter(function (i) { return i !== idx; }).slice(0, 40);
+    label.hidden = false;
+    label.textContent = "对口「" + sch + "」的其他小区 · 共 " + (group.c.length - 1) + " 个";
+    box.innerHTML = others.map(communityRow).join("");
   }
 
   /* ---------- 小区详情 ---------- */
@@ -143,8 +161,13 @@
     $("view-home").classList.add("has-detail");
 
     if (MQ_DESKTOP.matches) {
-      // 桌面双栏：列表保留，仅高亮选中行，不动输入框与滚动
+      // 桌面双栏：列表保留，仅高亮选中行，不动滚动
       var rows = document.querySelectorAll("#community-results .row-btn");
+      if (!rows.length) {
+        renderSiblings(idx);          // 深链接进入：补同校小区
+        rows = document.querySelectorAll("#community-results .row-btn");
+      }
+      $("q-community").value = c.n;   // 搜索框回显当前小区
       for (var r = 0; r < rows.length; r++) {
         rows[r].classList.toggle("selected", rows[r].dataset.idx === String(idx));
       }
@@ -275,6 +298,7 @@
       }
     } else if (parts[0] === "s" && parts[1]) {
       showTab("school");
+      if (!$("school-results").children.length) renderSchoolList(""); // 深链接：补全左侧学校列表
       renderSchoolDetail(decodeURIComponent(parts[1]));
     } else if (parts[0] === "school") {
       showTab("school");
