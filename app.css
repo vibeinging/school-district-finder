@@ -220,6 +220,12 @@ main {
   background: var(--card); border-radius: var(--radius);
   padding: 20px 18px; box-shadow: var(--shadow-2); margin-top: 14px;
 }
+/* 桌面端：详情卡自身高度自适应内容，两档分区并排更紧凑 */
+@media (min-width: 1024px) {
+  .detail { margin-top: 0; }
+  .detail .sec-a, .detail .sec-b { margin-top: 12px; }
+  .detail h2 { font-size: 20px; }
+}
 .detail h2 { margin: 0 0 2px; font-size: 19px; font-weight: 800; line-height: 1.45; }
 .back-row { margin-bottom: 8px; }
 .back-btn {
@@ -418,6 +424,7 @@ main {
 .row-btn.selected { border: 1.5px solid var(--primary); }
 .pane-hint, .topnav { display: none; }
 .recent .chip { max-width: 280px; }
+.list-label { font-size: 12.5px; color: var(--ink-3); margin: 6px 4px 9px; }
 
 /* ============================================================
    桌面端（≥1024px）：顶栏导航 + 双栏布局 + 政策双列
@@ -434,7 +441,7 @@ main {
     padding: 12px 28px; border-radius: 0;
   }
   .topbar::before { width: 380px; height: 380px; right: -140px; top: -220px; }
-  .topbar-inner { max-width: 1180px; display: flex; align-items: center; gap: 26px; }
+  .topbar-inner { max-width: 1400px; display: flex; align-items: center; gap: 26px; }
   .brand { font-size: 20px; }
   .sub { margin-top: 0; font-size: 13px; }
   .topnav { display: flex; gap: 6px; margin-left: auto; }
@@ -446,23 +453,30 @@ main {
   .tnav:hover { background: rgba(255, 255, 255, 0.12); color: #fff; }
   .tnav.active { background: rgba(255, 255, 255, 0.2); color: #fff; font-weight: 700; }
 
-  main { max-width: 1180px; padding: 22px 28px 60px; }
+  main { max-width: 1400px; padding: 22px 32px 56px; }
   .tabbar { display: none; }
   .view { animation: none; }
   .topbar-inner { animation: none; }
 
   /* 小区页：左列表右详情 */
   #view-home {
-    display: grid; column-gap: 30px; align-items: start;
-    grid-template-columns: minmax(360px, 430px) 1fr;
+    display: grid; column-gap: 34px; align-items: start;
+    grid-template-columns: minmax(420px, 480px) 1fr;
     grid-template-areas: "default side" "list side";
   }
   #home-default { grid-area: default; max-width: 860px; }
   #view-home .col-list { grid-area: list; }
   #view-home .search-box { position: static; background: none; padding: 14px 0 10px; }
-  #view-home .detail-host { grid-area: side; position: sticky; top: 86px; margin-top: 14px; }
-  #view-home .pane-hint { grid-area: side; margin-top: 14px; }
+  #view-home .detail-host { grid-area: side; position: sticky; top: 86px; margin-top: 0; align-self: start; }
+  #view-home .pane-hint { grid-area: side; margin-top: 0; }
   #view-home.has-detail .pane-hint { display: none; }
+  /* 详情态：收起说明卡与历史，左栏专注列表 */
+  #view-home.has-detail .tips,
+  #view-home.has-detail .recent { display: none; }
+  /* 右栏详情卡按内容高度，不随左栏拉伸 */
+  #view-home .detail { max-width: 100%; }
+  /* 搜索历史限制为两行，避免左栏被占满 */
+  #view-home .recent .chips { max-height: 74px; overflow: hidden; }
 
   /* 学校页：同款双栏 */
   #view-school {
