@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>朝阳小学指南 · 你住的地方，能上哪个小学</title>
+<meta name="description" content="北京朝阳区住宅区对应小学入学服务片查询指南：7651 个小区对口学校、多校派位范围、入学政策。数据来源：朝阳区招生考试中心（2026年）。">
+<link rel="stylesheet" href="app.css?v=7">
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand-row">
+      <span class="brand">朝阳小学指南</span>
+      <span class="year-pill" id="year-pill">2026 年数据</span>
+    </div>
+    <div class="sub" id="meta-sub">你住的地方，能上哪个小学</div>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- ========== 查小区 ========== -->
+  <section id="view-home" class="view">
+    <div id="home-default">
+      <div class="stats-card">
+        <div class="stat"><b id="stat-count">–</b><span>住宅小区</span></div>
+        <div class="stat"><b id="stat-schools">–</b><span>涉及小学</span></div>
+        <div class="stat"><b id="stat-year">2026</b><span>数据年份</span></div>
+      </div>
+      <div class="tips">
+        <p>· 输入<b>小区名</b>（支持拼音、首字母）查询对口小学</p>
+        <p>· 结果分两档：<b>2017-06-30 前购房</b>为单校划片，<b>之后购房</b>为多校派位</p>
+        <p>· 也可以切到「学校」页，按学校反查对口小区</p>
+      </div>
+      <div class="hot-areas">
+        <div class="recent-title">热门区域</div>
+        <div class="chips">
+          <button class="chip" data-name="望京">望京</button>
+          <button class="chip" data-name="芍药居">芍药居</button>
+          <button class="chip" data-name="大屯">大屯</button>
+          <button class="chip" data-name="常营">常营</button>
+          <button class="chip" data-name="劲松">劲松</button>
+          <button class="chip" data-name="双井">双井</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <div class="search-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <input id="q-community" type="search" autocomplete="off"
+               placeholder="搜小区名 / 拼音，如 望京西园" maxlength="40">
+      </div>
+      <div class="hint" id="home-hint">支持小区名 / 拼音 / 首字母（如 wangjing、wjxy）</div>
+    </div>
+
+    <div id="recent-box" class="recent" hidden>
+      <div class="recent-title">搜索历史 <button class="link-btn" id="recent-clear">清空</button></div>
+      <div class="chips" id="recent-list"></div>
+    </div>
+    <ul id="community-results" class="result-list"></ul>
+  </section>
+
+  <!-- ========== 查学校 ========== -->
+  <section id="view-school" class="view" hidden>
+    <div class="search-box">
+      <div class="search-pill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+        <input id="q-school" type="search" autocomplete="off"
+               placeholder="学校名，如：花家地、白家庄" maxlength="40">
+      </div>
+      <div class="hint">按对口小区数排序 · 共 <span id="school-total">–</span> 所（含派位池学校）</div>
+    </div>
+    <ul id="school-results" class="result-list"></ul>
+  </section>
+
+  <!-- ========== 政策 ========== -->
+  <section id="view-policy" class="view" hidden>
+    <div class="card warn">
+      <div class="card-title">先看懂一件事</div>
+      <p>孩子上哪所学校，主要看两件事：<b>① 身份</b>（京籍 / 工作居住证 / 非京籍）与
+      <b>② 住房</b>（朝阳房产的取证时间，或租房）。下面按六种组合说清楚。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">最重要的一条线：2017 年 6 月 30 日</div>
+      <p>这一天<b>之前</b>取得朝阳不动产权证的地址 → 对应一所学校（单校划片）；<br>
+      这一天<b>之后</b>取得 → 不再对应单一学校，在片区内<b>多校派位</b>。<br>
+      本站每个小区的两档结果，就是这么来的。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">六种身份 × 住房组合</div>
+      <div class="combo"><span class="no">1</span><div><b>京籍 + 朝阳房产</b><span>直接登记入学；按 2017-06-30 分界，单校或派位。</span></div></div>
+      <div class="combo"><span class="no">2</span><div><b>京籍（外区户）+ 朝阳租房</b><span>不对应单校，统筹派位。须连续单独承租并实际居住满 3 年（至当年 5 月 1 日）+ 租赁平台备案 + 至少一方在朝阳就业满 3 年。</span></div></div>
+      <div class="combo"><span class="no">3</span><div><b>工作居住证 + 朝阳房产</b><span>按本市户籍对待，规则同京籍有房。证件须在有效期内、子女已随迁、聘用单位注册在朝阳。</span></div></div>
+      <div class="combo"><span class="no">4</span><div><b>工作居住证 + 租房</b><span>按本市户籍对待，统筹派位。朝阳对单位与居住地一致性审核较严。</span></div></div>
+      <div class="combo"><span class="no">5</span><div><b>非京籍 + 朝阳房产</b><span>四证联审（务工就业 + 居住证明 + 全家户口簿 + 朝阳居住证）通过后统筹派位。至少一方在朝阳务工并缴社保。</span></div></div>
+      <div class="combo"><span class="no">6</span><div><b>非京籍 + 租房</b><span>四证联审，居住材料为租赁合同 + 房主房产证与身份证 + 出租发票。居住证地址须与实际住所一致且连续有效。</span></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">六年一学位</div>
+      <p>一个实际居住地址自用于登记入学之年起，小学六年内原则上只提供一个学位
+      （符合国家生育政策的多孩除外）。买房、租房前建议核实学位占用情况。</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">关键时间线（2026 年版）</div>
+      <p>5/6–5/31 信息采集（yjrx.bjedu.cn）<br>
+      5/8–5/14 非京籍四证联审<br>
+      6 月上旬 各校门口张贴招生公告（最终依据）<br>
+      6–7 月 派位与录取</p>
+    </div>
+
+    <div class="card dim">
+      <p id="policy-meta">–</p>
+    </div>
+  </section>
+
+  <footer class="global-disclaimer">
+    数据与政策说明仅供参考，实际入学办法以当年朝阳区教委官方公布为准。
+  </footer>
+</main>
+
+<nav class="tabbar">
+  <button class="tab active" data-tab="home" aria-label="小区">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7"></path><path d="M6 10v9h12v-9"></path><path d="M10 19v-5h4v5"></path></svg>
+    <span>小区</span>
+  </button>
+  <button class="tab" data-tab="school" aria-label="学校">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10v10h18V10"></path><path d="M12 3l9 7"></path><path d="M8 20v-5h8v5"></path><path d="M8 12h.01M12 12h.01M16 12h.01"></path></svg>
+    <span>学校</span>
+  </button>
+  <button class="tab" data-tab="policy" aria-label="政策">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 01-3-3V4z"></path><path d="M5 17a3 3 0 013-3h11"></path><path d="M9 8h6"></path></svg>
+    <span>政策</span>
+  </button>
+</nav>
+
+<script src="data.js?v=4"></script>
+<script src="app.js?v=7"></script>
+</body>
+</html>
