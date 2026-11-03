@@ -2,6 +2,8 @@
 
 北京朝阳区小区 → 对口小学查询工具（网页版）。
 
+**🌐 在线体验：<https://vibeinging.github.io/school-district-finder/>**（GitHub Pages 托管，纯静态零依赖；也可下载本仓库 web/ 目录双击 index.html 离线使用）
+
 ## 当前状态（2026-11-03）
 
 - ✅ 朝阳区数据全量完成：7,651 个住宅小区 / 241 所小学（2026 年版）
