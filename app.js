@@ -150,6 +150,10 @@
 
       '<p class="note">依据就近入学原则，实际入学以当年教委规定与学校招生公告为准；' +
       "一个地址小学六年内原则上只提供一个学位（多孩除外）。</p>",
+      '<div class="detail-foot">' +
+        '<span>数据来源：朝阳区招生考试中心 · ' + D.meta.year + ' 年</span>' +
+        '<button class="foot-link" data-goto="policy">查看完整入学政策 ›</button>' +
+      '</div>',
       "</div>"
     ].join("");
     var host = document.createElement("div");
@@ -333,6 +337,7 @@
     if (!t) return;
 
     if (t.dataset.tab) { location.hash = "#/" + t.dataset.tab; return; }
+    if (t.dataset.goto) { location.hash = "#/" + t.dataset.goto; return; }
 
     if (t.dataset.idx !== undefined && t.dataset.idx !== "") {
       var ci = Number(t.dataset.idx);
